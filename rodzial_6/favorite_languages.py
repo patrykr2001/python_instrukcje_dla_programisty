@@ -25,3 +25,16 @@ for language in set(favorite_languages.values()):
 
 languages = {'c', 'python', 'rust', 'python'}  # zbiór
 print(languages)
+
+
+favorite_languages = {
+    'janek': ['python', 'rust'],
+    'sara': ['c'],
+    'edward': ['rust', 'go'],
+    'paweł': ['python', 'haskell'],
+}
+
+for name, languages in favorite_languages.items():
+    print(f"\nUlunione języki programowania użytkownika {name.title()} to:")
+    for language in languages:
+        print(f"\t{language.title()}")
