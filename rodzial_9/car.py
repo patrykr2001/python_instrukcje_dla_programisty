@@ -1,6 +1,7 @@
-class Car:
-    """Prosta próba zaprezentowania samochodu."""
+"""Prosta klasa, która będzie przedstawiać samochód."""
 
+
+class Car:
     def __init__(self, make, model, year):
         """Inicjacja atrybutów opisujących samochód."""
         self.make = make
@@ -30,20 +31,3 @@ class Car:
     def increment_odometer(self, kilometers):
         """Inkrementacja wartości licznika przebiegu samochodu o podaną wartość."""
         self.odometer_reading += kilometers
-
-
-# my_new_car = Car('audi', 'a4', 2024)
-# print(my_new_car.get_descriptive_name())
-#
-# my_new_car.odometer_reading = 23
-# my_new_car.read_odometer()
-#
-# my_used_car = Car('subaru', 'outback', 2019)
-# print(my_used_car.get_descriptive_name())
-#
-# my_used_car.update_odometer(23_500)
-# my_used_car.read_odometer()
-#
-# my_used_car.increment_odometer(100)
-# my_used_car.read_odometer()
-
