@@ -9,6 +9,7 @@ from assets.ship import Ship
 from assets.bullet import Bullet
 from assets.alien import Alien
 from assets.button import Button
+from scoreboard import Scoreboard
 
 
 class AlienInvasion:
@@ -27,6 +28,7 @@ class AlienInvasion:
         pygame.display.set_caption("Inwazja obcych")
 
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -102,9 +104,20 @@ class AlienInvasion:
     def _check_bullet_alien_collision(self):
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+
         if not self.aliens:
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
+
+           # Inkrementacja poziomu
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _ship_hit(self):
         """Reakcja na zderzenie obcego ze statkiem."""
@@ -181,6 +194,9 @@ class AlienInvasion:
         self.ship.blit_me()
         self.aliens.draw(self.screen)
 
+        # Wyświetlenie informacji o punktacji.
+        self.sb.show_score()
+
         if not self.game_active:
             self.play_button.draw_button()
 
@@ -191,7 +207,10 @@ class AlienInvasion:
         """Rozpoczęcie nowej gry po kliknięciu przycisku Gra przez użytkownika."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
+            self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
+            self.sb.prep_score()
+            self.sb.prep_level()
             self.game_active = True
 
             self.bullets.empty()
